@@ -1,0 +1,16 @@
+.customTextEclipse {
+  position: relative;
+}
+
+.customTextEclipse::after {
+  content: "";
+  width: 70%;
+  height: 19px;
+  position: absolute;
+  right: -100px;
+  bottom: 0px;
+  display: inline-block;
+  background-image: linear-gradient(to right, transparent, hsl(0, 0%, 0%) 80%);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
