@@ -3,7 +3,6 @@ import { apiSlice } from "../api/apiSlice";
 
 const initialState = {
   blogs: [],
-  blog: {},
   categories: [],
 };
 
@@ -24,7 +23,6 @@ const blogsSlice = createSlice({
     builder.addMatcher(
       apiSlice.endpoints.fetchBlogs.matchFulfilled,
       (state, action) => {
-        console.log(action.payload);
         state.blogs = action.payload;
       },
     );

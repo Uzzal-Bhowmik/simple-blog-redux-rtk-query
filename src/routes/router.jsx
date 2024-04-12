@@ -6,6 +6,8 @@ import Authors from "../pages/Authors/Authors";
 import DynamicAuthor from "../pages/DynamicAuthor/DynamicAuthor";
 import AddBlog from "../pages/AddBlog/AddBlog";
 import EditBlog from "../pages/EditBlog/EditBlog";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 
 const router = createBrowserRouter([
   {
@@ -17,22 +19,30 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/blog/:id",
+        path: "blog/:id",
         element: <DynamicBlog />,
       },
       {
-        path: "/authors",
+        path: "authors",
         element: <Authors />,
       },
 
       {
-        path: "/author/:id",
+        path: "author/:id",
         element: <DynamicAuthor />,
       },
-      { path: "/new-blog", element: <AddBlog /> },
+      { path: "new-blog", element: <AddBlog /> },
       {
-        path: "/edit-blog/:id",
+        path: "edit-blog/:id",
         element: <EditBlog />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },
