@@ -4,9 +4,17 @@ import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 import Reactions from "./Reactions";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit, ShoppingBag, Trash } from "lucide-react";
 import { useDeleteBlogMutation } from "../redux/slices/blogsApiSlice";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/slices/authSlice";
+import {
+  useAddToCartMutation,
+  useFetchCartQuery,
+} from "../redux/slices/cartApiSlice";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 const BlogCard = ({ blog, smallerVersion }) => {
   const {
@@ -22,35 +30,79 @@ const BlogCard = ({ blog, smallerVersion }) => {
   } = blog;
   const navigate = useNavigate();
 
+  const { user } = useSelector(selectAuth);
+
+  const [addToCart] = useAddToCartMutation();
+
+  // check if item exists in cart
+  const [existInCart, setExistInCart] = useState(null);
+  const { data: cart } = useFetchCartQuery(
+    { email: user?.email },
+    { skip: !user?.email },
+  );
+
+  useEffect(() => {
+    if (cart) {
+      const found = cart.find((item) => item.blogId === blog.id);
+      setExistInCart(found);
+    }
+  }, [cart, blog]);
+
+  console.log(existInCart);
+
   // delete blog
   const [deleteBlog] = useDeleteBlogMutation();
   const handleDeleteBlog = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteBlog(id)
-          .then((res) => {
-            if (res.data) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
+    !user?.uid
+      ? navigate("/login")
+      : Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            deleteBlog(id)
+              .then((res) => {
+                if (res.data) {
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                  });
+                  navigate("/");
+                }
+              })
+              .catch((error) => {
+                console.error(error);
               });
-              navigate("/");
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    });
+          }
+        });
+  };
+
+  // add to cart
+  const handleAddToCart = () => {
+    const cartItem = {
+      blogId: blog.id,
+      title: blog.title,
+      author: blog.author.authorName,
+      thumb: blog.thumbnail,
+      date: blog.date,
+      email: user?.email,
+    };
+
+    addToCart(cartItem)
+      .then((res) => {
+        if (res.data) {
+          toast.success("Cart Updated");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -116,20 +168,30 @@ const BlogCard = ({ blog, smallerVersion }) => {
           </div>
 
           {/* card footer */}
-          <div className="mt-10 flex items-center justify-between">
-            <div>{reactions && <Reactions blog={blog} />}</div>
-            <div className="flex items-center gap-3">
-              <Link to={`/edit-blog/${id}`}>
-                <Button>
-                  <Edit className="mr-2 h-4 w-4" /> Edit Blog
+          {user?.uid && (
+            <div className="mt-10 flex items-center justify-between">
+              <div>{reactions && <Reactions blog={blog} />}</div>
+              <div className="flex items-center gap-3">
+                <Button
+                  type="button"
+                  onClick={handleAddToCart}
+                  disabled={existInCart?.id}
+                >
+                  <ShoppingBag className="h-4 w-4" />
                 </Button>
-              </Link>
 
-              <Button variant="destructive" onClick={handleDeleteBlog}>
-                <Trash className="mr-2 h-4 w-4" /> Delete Blog
-              </Button>
+                <Link to={`/edit-blog/${id}`}>
+                  <Button>
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </Link>
+
+                <Button variant="destructive" onClick={handleDeleteBlog}>
+                  <Trash className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

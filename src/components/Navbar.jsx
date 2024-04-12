@@ -19,11 +19,14 @@ import { signOut } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { LoaderIcon } from "lucide-react";
+import { LoaderIcon, ShoppingBag } from "lucide-react";
+import { useFetchCartQuery } from "../redux/slices/cartApiSlice";
+import { selectAuth } from "../redux/slices/authSlice";
+import { Badge } from "@/components/ui/badge";
 
 const Navbar = () => {
   const pathName = useLocation().pathname.replace("/", "");
-  const { user, isAuthLoading } = useSelector((state) => state.auth);
+  const { user, isAuthLoading } = useSelector(selectAuth);
 
   // Sign Out
   const handleLogout = () => {
@@ -35,6 +38,15 @@ const Navbar = () => {
         toast.error(err?.code);
       });
   };
+
+  // cart data
+  const { data: cart } = useFetchCartQuery(
+    { email: user?.email },
+    {
+      skip: user?.uid === undefined,
+    },
+  );
+  // console.log(cart);
 
   return (
     <NavigationMenu className="relative bottom-2 mt-0 h-20 w-full max-w-full border border-b-slate-200">
@@ -91,23 +103,29 @@ const Navbar = () => {
         </div>
       ) : (
         user?.uid && (
-          <DropdownMenu>
-            <DropdownMenuTrigger className="absolute right-2">
-              <Avatar>
-                <AvatarImage src={user?.photoURL} />
-                <AvatarFallback>
-                  {user?.email?.slice(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="mr-2">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Button onClick={handleLogout}>Logout</Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="absolute right-2 flex items-center gap-3">
+            <div className="relative">
+              <ShoppingBag className="h-8 w-8" />
+              <Badge className="absolute -right-2 -top-2">{cart?.length}</Badge>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src={user?.photoURL} rel="noopener noreferrer" />
+                  <AvatarFallback>
+                    {user?.email?.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="mr-2">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Button onClick={handleLogout}>Logout</Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         )
       )}
     </NavigationMenu>

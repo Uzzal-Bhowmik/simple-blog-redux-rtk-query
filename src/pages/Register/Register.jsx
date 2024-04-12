@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import auth from "@/src/firebase/firebase.config";
 import { useState } from "react";
 import { toast } from "sonner";
+import useThirdPartyLogin from "@/src/hooks/useThirdPartyLogin";
 
 const Register = () => {
   const googleIcon = (
@@ -38,6 +39,7 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+  const { handleGoogleSignIn } = useThirdPartyLogin();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -84,7 +86,12 @@ const Register = () => {
         </p>
 
         <div className="flex items-center justify-center">
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2"
+            type="button"
+            onClick={() => handleGoogleSignIn(from)}
+          >
             {googleIcon} Google
           </Button>
         </div>
@@ -129,7 +136,7 @@ const Register = () => {
           </div>
         </div>
 
-        <Button className="mt-5 w-full" disabled={isLoading}>
+        <Button className="mt-5 w-full" disabled={isLoading} type="submit">
           {isLoading ? `Creating Account...` : `Create account`}
         </Button>
         <p className="mt-2 text-center text-muted-foreground">

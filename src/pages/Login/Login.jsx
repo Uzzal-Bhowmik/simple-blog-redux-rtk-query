@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import auth from "@/src/firebase/firebase.config";
+import useThirdPartyLogin from "@/src/hooks/useThirdPartyLogin";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -38,6 +39,7 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+  const { handleGoogleSignIn } = useThirdPartyLogin();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -74,7 +76,12 @@ const Login = () => {
         </p>
 
         <div className="flex items-center justify-center">
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => handleGoogleSignIn(from)}
+            type="button"
+          >
             {googleIcon} Google
           </Button>
         </div>
@@ -102,7 +109,7 @@ const Login = () => {
           </div>
         </div>
 
-        <Button className="mt-5 w-full" disabled={isLoading}>
+        <Button className="mt-5 w-full" disabled={isLoading} type="submit">
           {isLoading ? "Logging In..." : "Sign In"}
         </Button>
         <p className="mt-2 text-center text-muted-foreground">

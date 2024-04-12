@@ -23,6 +23,9 @@ const authSlice = createSlice({
   },
 });
 
+// selectors
+export const selectAuth = (state) => state.auth;
+
 // actions
 export const { setUser } = authSlice.actions;
 

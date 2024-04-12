@@ -59,8 +59,8 @@
         "like": 1,
         "love": 1,
         "fire": 1,
-        "sad": 4,
-        "angry": 1
+        "sad": 5,
+        "angry": 2
       }
     },
     {
@@ -203,12 +203,50 @@
       "date": "2024-04-02T20:50:04.128Z",
       "featured": true,
       "reactions": {
-        "like": 1,
-        "love": 8,
-        "fire": 7,
-        "sad": 0,
-        "angry": 0
+        "like": 4,
+        "love": 11,
+        "fire": 9,
+        "sad": 2,
+        "angry": 1
       }
+    }
+  ],
+  "cart": [
+    {
+      "id": "5243",
+      "blogId": "10",
+      "title": "Intro to Javascript",
+      "author": "Uzzal Bhowmik",
+      "thumb": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEnPtExtHZFzkyc3y2tArxdzzgbfEeRI8yu-mhRGo0uw&s",
+      "date": "2024-04-02T20:50:04.128Z",
+      "email": "ubcreativity111@gmail.com"
+    },
+    {
+      "id": "273a",
+      "blogId": "1",
+      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+      "author": "Emily Lavoie",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T19:02:37.712Z",
+      "email": "ubcreativity111@gmail.com"
+    },
+    {
+      "id": "0bfd",
+      "blogId": "3",
+      "title": "Newer Version",
+      "author": "Nicholas Pierre",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T18:54:43.724Z",
+      "email": "ubcreativity111@gmail.com"
+    },
+    {
+      "id": "b6f8",
+      "blogId": "9",
+      "title": "nesciunt iure omnis dolorem tempora et accusantium",
+      "author": "Kristin Arnold",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T08:33:38.482Z",
+      "email": "ubcreativity111@gmail.com"
     }
   ]
 }

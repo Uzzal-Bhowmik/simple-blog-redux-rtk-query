@@ -10,7 +10,11 @@
   right: -100px;
   bottom: 0px;
   display: inline-block;
-  background-image: linear-gradient(to right, transparent, hsl(0, 0%, 0%) 80%);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    hsl(255, 100%, 100%) 60%
+  );
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }

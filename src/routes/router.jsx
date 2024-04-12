@@ -8,6 +8,7 @@ import AddBlog from "../pages/AddBlog/AddBlog";
 import EditBlog from "../pages/EditBlog/EditBlog";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,11 @@ const router = createBrowserRouter([
       },
       {
         path: "blog/:id",
-        element: <DynamicBlog />,
+        element: (
+          <PrivateRoute>
+            <DynamicBlog />
+          </PrivateRoute>
+        ),
       },
       {
         path: "authors",
@@ -31,10 +36,21 @@ const router = createBrowserRouter([
         path: "author/:id",
         element: <DynamicAuthor />,
       },
-      { path: "new-blog", element: <AddBlog /> },
+      {
+        path: "new-blog",
+        element: (
+          <PrivateRoute>
+            <AddBlog />
+          </PrivateRoute>
+        ),
+      },
       {
         path: "edit-blog/:id",
-        element: <EditBlog />,
+        element: (
+          <PrivateRoute>
+            <EditBlog />
+          </PrivateRoute>
+        ),
       },
       {
         path: "login",
