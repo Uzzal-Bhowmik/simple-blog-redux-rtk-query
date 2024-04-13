@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,13 +43,12 @@ const Navbar = () => {
   const { data: cart } = useFetchCartQuery(
     { email: user?.email },
     {
-      skip: user?.uid === undefined,
+      skip: !user?.email,
     },
   );
-  // console.log(cart);
 
   return (
-    <NavigationMenu className="relative bottom-2 mt-0 h-20 w-full max-w-full border border-b-slate-200">
+    <NavigationMenu className="sticky top-0 mt-0 h-20 w-full max-w-full border-b border-b-slate-200 bg-white">
       <NavigationMenuList className="navlink-container">
         <NavigationMenuItem>
           <NavLink
@@ -104,10 +103,10 @@ const Navbar = () => {
       ) : (
         user?.uid && (
           <div className="absolute right-2 flex items-center gap-3">
-            <div className="relative">
+            <Link className="relative" to="/cart">
               <ShoppingBag className="h-8 w-8" />
               <Badge className="absolute -right-2 -top-2">{cart?.length}</Badge>
-            </div>
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>

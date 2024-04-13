@@ -30,13 +30,10 @@ const MainLayout = () => {
 
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
       <main className="mx-auto max-w-6xl">
         <Outlet />
       </main>
-
       <Toaster richColors />
     </>
   );

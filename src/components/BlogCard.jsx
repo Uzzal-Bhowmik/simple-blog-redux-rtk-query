@@ -48,8 +48,6 @@ const BlogCard = ({ blog, smallerVersion }) => {
     }
   }, [cart, blog]);
 
-  console.log(existInCart);
-
   // delete blog
   const [deleteBlog] = useDeleteBlogMutation();
   const handleDeleteBlog = () => {
@@ -92,6 +90,7 @@ const BlogCard = ({ blog, smallerVersion }) => {
       thumb: blog.thumbnail,
       date: blog.date,
       email: user?.email,
+      quantity: 1,
     };
 
     addToCart(cartItem)

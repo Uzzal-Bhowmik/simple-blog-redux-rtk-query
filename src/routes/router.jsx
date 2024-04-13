@@ -9,6 +9,7 @@ import EditBlog from "../pages/EditBlog/EditBlog";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
+import Cart from "../pages/Cart/Cart";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <EditBlog />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <PrivateRoute>
+            <Cart />
           </PrivateRoute>
         ),
       },
