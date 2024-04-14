@@ -7,14 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Edit, ShoppingBag, Trash } from "lucide-react";
 import { useDeleteBlogMutation } from "../redux/slices/blogsApiSlice";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "../redux/slices/authSlice";
-import {
-  useAddToCartMutation,
-  useFetchCartQuery,
-} from "../redux/slices/cartApiSlice";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import { addToCart, selectCart } from "../redux/slices/cartSlice";
+import { nanoid } from "@reduxjs/toolkit";
 
 const BlogCard = ({ blog, smallerVersion }) => {
   const {
@@ -32,19 +30,17 @@ const BlogCard = ({ blog, smallerVersion }) => {
 
   const { user } = useSelector(selectAuth);
 
-  const [addToCart] = useAddToCartMutation();
+  const dispatch = useDispatch();
 
   // check if item exists in cart
   const [existInCart, setExistInCart] = useState(null);
-  const { data: cart } = useFetchCartQuery(
-    { email: user?.email },
-    { skip: !user?.email },
-  );
+
+  const cart = useSelector(selectCart);
 
   useEffect(() => {
     if (cart) {
-      const found = cart.find((item) => item.blogId === blog.id);
-      setExistInCart(found);
+      const found = cart.find((item) => item.blogId === blog?.id);
+      setExistInCart(Boolean(found?.blogId));
     }
   }, [cart, blog]);
 
@@ -83,36 +79,42 @@ const BlogCard = ({ blog, smallerVersion }) => {
 
   // add to cart
   const handleAddToCart = () => {
-    const cartItem = {
-      blogId: blog.id,
-      title: blog.title,
-      author: blog.author.authorName,
-      thumb: blog.thumbnail,
-      date: blog.date,
-      email: user?.email,
-      quantity: 1,
-    };
+    if (!existInCart) {
+      const cartItem = {
+        id: nanoid(),
+        blogId: blog.id,
+        title: blog.title,
+        author: blog.author.authorName,
+        thumb: blog.thumbnail,
+        date: blog.date,
+        quantity: 1,
+      };
+      dispatch(addToCart(cartItem));
 
-    addToCart(cartItem)
-      .then((res) => {
-        if (res.data) {
-          toast.success("Cart Updated");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      toast.success("Cart Updated");
+    }
   };
 
   return (
     <div>
-      <Link to={`/blog/${id}`}>
-        <img
-          src={thumbnail}
-          alt={title}
-          className="mx-auto block h-[500px] w-full"
-        />
-      </Link>
+      <div className="relative">
+        <Link to={`/blog/${id}`}>
+          <img
+            src={thumbnail}
+            alt={title}
+            className="mx-auto block h-[500px] w-full"
+          />
+        </Link>
+        <Button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={existInCart}
+          className="absolute right-3 top-3 rounded-full"
+          variant="outline"
+        >
+          <ShoppingBag className="h-5 w-4" />
+        </Button>
+      </div>
 
       {blog?.id && (
         <div className="mx-auto w-3/4">
@@ -171,14 +173,6 @@ const BlogCard = ({ blog, smallerVersion }) => {
             <div className="mt-10 flex items-center justify-between">
               <div>{reactions && <Reactions blog={blog} />}</div>
               <div className="flex items-center gap-3">
-                <Button
-                  type="button"
-                  onClick={handleAddToCart}
-                  disabled={existInCart?.id}
-                >
-                  <ShoppingBag className="h-4 w-4" />
-                </Button>
-
                 <Link to={`/edit-blog/${id}`}>
                   <Button>
                     <Edit className="h-4 w-4" />

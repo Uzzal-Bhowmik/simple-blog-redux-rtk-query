@@ -3,6 +3,7 @@ import { apiSlice } from "./api/apiSlice";
 import authorsReducer from "./slices/authorsSlice";
 import blogsReducer from "./slices/blogsSlice";
 import authReducer from "./slices/authSlice";
+import cartReducer from "./slices/cartSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   authors: authorsReducer,
   blogs: blogsReducer,
   auth: authReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

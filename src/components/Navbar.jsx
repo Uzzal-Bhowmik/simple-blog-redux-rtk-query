@@ -20,9 +20,9 @@ import auth from "../firebase/firebase.config";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { LoaderIcon, ShoppingBag } from "lucide-react";
-import { useFetchCartQuery } from "../redux/slices/cartApiSlice";
 import { selectAuth } from "../redux/slices/authSlice";
 import { Badge } from "@/components/ui/badge";
+import { selectCart } from "../redux/slices/cartSlice";
 
 const Navbar = () => {
   const pathName = useLocation().pathname.replace("/", "");
@@ -40,12 +40,7 @@ const Navbar = () => {
   };
 
   // cart data
-  const { data: cart } = useFetchCartQuery(
-    { email: user?.email },
-    {
-      skip: !user?.email,
-    },
-  );
+  const cart = useSelector(selectCart);
 
   return (
     <NavigationMenu className="sticky top-0 mt-0 h-20 w-full max-w-full border-b border-b-slate-200 bg-white">
@@ -94,6 +89,13 @@ const Navbar = () => {
             )}
           </>
         )}
+
+        <NavigationMenuItem>
+          <Link to="/cart" className="flex items-center gap-1">
+            <ShoppingBag />
+            <Badge className="">{cart?.length}</Badge>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
 
       {isAuthLoading ? (
@@ -103,10 +105,6 @@ const Navbar = () => {
       ) : (
         user?.uid && (
           <div className="absolute right-2 flex items-center gap-3">
-            <Link className="relative" to="/cart">
-              <ShoppingBag className="h-8 w-8" />
-              <Badge className="absolute -right-2 -top-2">{cart?.length}</Badge>
-            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
@@ -117,10 +115,17 @@ const Navbar = () => {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mr-2">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-base">
+                  My Account
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Button onClick={handleLogout}>Logout</Button>
+                <DropdownMenuItem className="text-base">
+                  <Link to="/user-order">My Orders</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="mt-6">
+                  <Button onClick={handleLogout} className="w-full">
+                    Logout
+                  </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

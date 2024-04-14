@@ -10,6 +10,9 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import Cart from "../pages/Cart/Cart";
+import Order from "../pages/Order/Order";
+import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
+import UserOrders from "../pages/User Related/UserOrders/UserOrders";
 
 const router = createBrowserRouter([
   {
@@ -55,9 +58,29 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "order",
         element: (
           <PrivateRoute>
-            <Cart />
+            <Order />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "order-success",
+        element: (
+          <PrivateRoute>
+            <OrderSuccess />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "user-order",
+        element: (
+          <PrivateRoute>
+            <UserOrders />
           </PrivateRoute>
         ),
       },
