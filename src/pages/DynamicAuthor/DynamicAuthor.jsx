@@ -34,8 +34,6 @@ const DynamicAuthor = () => {
     }
   }, [authors, id, blogs]);
 
-  console.log(authors, author, blogsByAuthor);
-
   return (
     <div className="my-10">
       <h1 className="mb-6 underline">{author?.authorName}</h1>

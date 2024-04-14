@@ -1,9 +1,16 @@
+import axios from "axios";
 import { apiSlice } from "../api/apiSlice";
+import axiosSecure from "@/src/hooks/useAxiosSecure";
 
 const cartApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchCart: builder.query({
-      query: (arg) => `/cart?email=${arg.email}`,
+      queryFn: async (arg) => {
+        const res = await axios.get(
+          `http://localhost:5000/cart?email=${arg.email}`,
+        );
+        return { data: res.data };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -12,12 +19,26 @@ const cartApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: "Cart", id: "LIST" }],
     }),
+    fetchWishlist: builder.query({
+      queryFn: async () => {
+        const res = await axiosSecure.get("http://localhost:3500/wishlist");
+
+        return { data: res.data };
+      },
+
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((item) => ({ type: "Wishlist", id: item.id })),
+              { type: "Wishlist", id: "LIST" },
+            ]
+          : [{ type: "Wishlist", id: "LIST" }],
+    }),
     addToCart: builder.mutation({
-      query: (body) => ({
-        url: "/cart",
-        method: "POST",
-        body: body,
-      }),
+      queryFn: async (body) => {
+        const res = await axios.post("http://localhost:5000/cart", body);
+        return { data: res.data };
+      },
       invalidatesTags: [{ type: "Cart", id: "LIST" }],
     }),
 
@@ -84,4 +105,5 @@ export const {
   useFetchItemByIdQuery,
   useUpdateCartMutation,
   useDeleteFromCartMutation,
+  useFetchWishlistQuery,
 } = cartApiSlice;

@@ -20,10 +20,10 @@ import { Minus, Plus, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 const Cart = () => {
-  const { user } = useSelector(selectAuth);
+  const { user, token } = useSelector(selectAuth);
   const { data: cart } = useFetchCartQuery(
     { email: user?.email },
-    { skip: !user?.email },
+    { skip: !user?.email && !token },
   );
 
   const [updateCart] = useUpdateCartMutation();
@@ -57,7 +57,7 @@ const Cart = () => {
         //
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       });
   };
 

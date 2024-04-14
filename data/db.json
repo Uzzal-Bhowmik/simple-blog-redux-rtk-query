@@ -206,7 +206,7 @@
         "like": 4,
         "love": 11,
         "fire": 9,
-        "sad": 2,
+        "sad": 3,
         "angry": 1
       }
     }
@@ -237,6 +237,56 @@
       "blogId": "9",
       "title": "nesciunt iure omnis dolorem tempora et accusantium",
       "author": "Kristin Arnold",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T08:33:38.482Z",
+      "email": "uzzalbhow111@gmail.com",
+      "quantity": 1
+    },
+    {
+      "id": "c4bd",
+      "blogId": "10",
+      "title": "Intro to Javascript",
+      "author": "Uzzal Bhowmik",
+      "thumb": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEnPtExtHZFzkyc3y2tArxdzzgbfEeRI8yu-mhRGo0uw&s",
+      "date": "2024-04-02T20:50:04.128Z",
+      "email": "uzzalbhow111@gmail.com",
+      "quantity": 1
+    },
+    {
+      "id": "7e8f",
+      "blogId": "1",
+      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+      "author": "Emily Lavoie",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T19:02:37.712Z",
+      "email": "uzzalbhow111@gmail.com",
+      "quantity": 1
+    },
+    {
+      "id": "b801",
+      "blogId": "3",
+      "title": "Newer Version",
+      "author": "Nicholas Pierre",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T18:54:43.724Z",
+      "email": "uzzalbhow111@gmail.com",
+      "quantity": 1
+    },
+    {
+      "id": "e3f9",
+      "blogId": "2",
+      "title": "qui est esse",
+      "author": "Emily Lavoie",
+      "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
+      "date": "2024-04-02T08:33:38.482Z",
+      "email": "uzzalbhow111@gmail.com",
+      "quantity": 1
+    },
+    {
+      "id": "5a00",
+      "blogId": "4",
+      "title": "eum et est occaecati",
+      "author": "Parv Gamskar",
       "thumb": "https://nordthemes.com/the-lifestyle/wp-content/uploads/sites/12/2017/05/clarisse-meyer-279811s.jpg",
       "date": "2024-04-02T08:33:38.482Z",
       "email": "uzzalbhow111@gmail.com",
