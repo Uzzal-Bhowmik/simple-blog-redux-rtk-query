@@ -103,12 +103,16 @@ const Navbar = () => {
           <LoaderIcon className="absolute right-2 top-1/3 animate-spin" />
         </div>
       ) : (
-        user?.uid && (
+        user?.uid &&
+        user?.photoURL && (
           <div className="absolute right-2 flex items-center gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src={user?.photoURL} rel="noopener noreferrer" />
+                  <AvatarImage
+                    src={user?.photoURL}
+                    referrerPolicy="no-referrer"
+                  />
                   <AvatarFallback>
                     {user?.email?.slice(0, 2).toUpperCase()}
                   </AvatarFallback>

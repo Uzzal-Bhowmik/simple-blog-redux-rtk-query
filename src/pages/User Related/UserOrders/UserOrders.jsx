@@ -32,17 +32,6 @@ const UserOrders = () => {
     const confirmation = confirm("Are you sure to delete this order?");
 
     if (confirmation) {
-      // deleteOrder(orderObj)
-      //   .unwrap()
-      //   .then((res) => {
-      //     if (res.id) {
-      //       toast.success("Item deleted");
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //   });
-
       try {
         await deleteOrder(orderObj).unwrap();
 

@@ -1,6 +1,6 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation, useOutlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
@@ -12,19 +12,28 @@ import {
   setUser,
 } from "../redux/slices/authSlice";
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+
+const AnimatedOutlet = () => {
+  const o = useOutlet();
+  const [outlet] = useState(o);
+
+  return <>{outlet}</>;
+};
 
 const MainLayout = () => {
   const { user, token } = useSelector(selectAuth);
 
   // scroll to top on route change
   const location = useLocation();
-  useEffect(() => {
-    document.documentElement.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [location]);
+  // useEffect(() => {
+  //   document.documentElement.scroll({
+  //     top: 0,
+  //     left: 0,
+  //     behavior: "smooth",
+  //   });
+  // }, [location]);
 
   // Monitor User Status
   const dispatch = useDispatch();
@@ -65,9 +74,27 @@ const MainLayout = () => {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-6xl">
-        <Outlet />
-      </main>
+      <AnimatePresence
+        mode="wait"
+        onExitComplete={() =>
+          document.documentElement.scroll({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          })
+        }
+      >
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, x: "-100vw" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="mx-auto max-w-6xl"
+        >
+          <AnimatedOutlet />
+        </motion.div>
+      </AnimatePresence>
       <Toaster richColors />
     </>
   );

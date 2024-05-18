@@ -25,11 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "blog/:id",
-        element: (
-          <PrivateRoute>
-            <DynamicBlog />
-          </PrivateRoute>
-        ),
+        element: <DynamicBlog />,
       },
       {
         path: "authors",
